@@ -98,16 +98,17 @@
   <!-- ---------- StarPal embedded (NO redirect) ---------- -->
   <div id="starpal-container">
     <iframe
-      src="https://starpal.ai/preview?id=58638727"
+      src="https://create.starpal.ai/pal?id=58638727"
       width="400"
       height="500"
       allow="microphone"
       id="starPalAvatar"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
     ></iframe>
   </div>
 
   <p style="margin-top:30px;font-size:14px;color:#777;">
-    Powered by <a href="https://starpal.ai" target="_blank">StarPal AI</a>
+    Powered by <a href="https://starpal.ai">StarPal AI</a>
   </p>
 
   <!-- ---------- Feedback Modal ---------- -->
@@ -150,7 +151,7 @@
     }
 
     function submitFeedback() {
-      // Placeholder for data submission logic
+      // Placeholder for future logic
       closeModal();
     }
   </script>
