@@ -3,157 +3,258 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>My StarPal Assistant</title>
+  <title>StarPal One-Page Session</title>
 
   <style>
-    body {
+    :root { --bg:#f8f9fa; --text:#222; --muted:#555; --blue:#0078ff; --blue2:#005fcc; }
+    * { box-sizing: border-box; }
+
+    body{
+      margin:0;
       font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 60px;
-      background: #f8f9fa;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 24px;
     }
 
-    h1 {
-      color: #222;
-      margin-bottom: 10px;
+    .wrap{
+      width: min(1100px, 100%);
+      display:flex;
+      flex-direction:column;
+      gap: 16px;
+      align-items:center;
+      text-align:center;
     }
 
-    p {
-      color: #555;
-      font-size: 16px;
-    }
+    h1{ margin: 0; font-size: 22px; }
+    p{ margin: 0; color: var(--muted); }
 
-    /* ---------- StarPal iframe ---------- */
-    #starpal-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;
-    }
-
-    iframe {
-      border: none;
-      border-radius: 12px;
+    /* --- StarPal iframe area --- */
+    .starpal-card{
+      width: min(520px, 100%);
       background: white;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      overflow:hidden;
     }
 
-    /* ---------- Feedback Modal ---------- */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
+    .starpal-header{
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      text-align:left;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    .badge{
+      display:inline-block;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(0,120,255,0.10);
+      color: #0b4ea2;
+      white-space:nowrap;
+    }
+
+    iframe{
       width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal {
+      height: 560px;
+      border: 0;
+      display:block;
       background: white;
-      padding: 30px;
+    }
+
+    /* --- Feedback modal --- */
+    .modal-overlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 9999;
+    }
+
+    .modal{
+      width: min(480px, 100%);
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.25);
+      padding: 18px;
+      text-align:left;
+    }
+
+    .modal h2{
+      margin: 0 0 10px 0;
+      font-size: 18px;
+    }
+
+    .modal p{
+      margin: 0 0 12px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .options{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .opt{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      padding: 10px 12px;
+      border: 1px solid rgba(0,0,0,0.10);
       border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
-      text-align: left;
-    }
-
-    .modal h2 {
-      margin-top: 0;
-      font-size: 20px;
-    }
-
-    .modal label {
-      display: block;
-      margin: 10px 0;
       cursor: pointer;
+      user-select:none;
     }
 
-    .modal button {
-      margin-top: 20px;
-      padding: 10px 16px;
-      background: #0078ff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
+    .opt input{ margin-top: 3px; }
+
+    .btn-row{
+      display:flex;
+      gap: 10px;
+      justify-content:flex-end;
+      margin-top: 14px;
     }
 
-    .modal button:hover {
-      background: #005fcc;
+    button{
+      appearance:none;
+      border:0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor:pointer;
+      font-weight: 600;
     }
 
-    .close-btn {
-      background: #ccc;
-      margin-left: 10px;
+    .primary{
+      background: var(--blue);
+      color:white;
+    }
+    .primary:hover{ background: var(--blue2); }
+
+    .ghost{
+      background: #e9ecef;
+      color:#333;
+    }
+    .ghost:hover{ background: #dde2e6; }
+
+    /* Small screens */
+    @media (max-width: 420px){
+      iframe{ height: 520px; }
+      .starpal-card{ border-radius: 12px; }
     }
   </style>
 </head>
 
 <body>
-  <h1>🎤 My StarPal Assistant</h1>
-  <p>Speak with the assistant directly on this page.</p>
+  <div class="wrap">
+    <h1>🎤 StarPal (One Page Only)</h1>
+    <p>Everything happens on this single page. No new tabs, no redirects from this page.</p>
 
-  <!-- ---------- StarPal embedded (NO redirect) ---------- -->
-  <div id="starpal-container">
-    <iframe
-      src="https://create.starpal.ai/pal?id=58638727"
-      width="400"
-      height="500"
-      allow="microphone"
-      id="starPalAvatar"
-      sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
-    ></iframe>
+    <div class="starpal-card" aria-label="StarPal container">
+      <div class="starpal-header">
+        <div style="font-weight:700;">Assistant</div>
+        <span class="badge">Mic enabled</span>
+      </div>
+
+      <!-- IMPORTANT:
+           - Use the embed link you provided.
+           - sandbox helps prevent the iframe from taking over (no top navigation allowed).
+           - allow="microphone" enables voice.
+      -->
+      <iframe
+        id="starPalAvatar"
+        src="https://create.starpal.ai/pal?id=58638727"
+        allow="microphone"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
+        referrerpolicy="no-referrer"
+      ></iframe>
+    </div>
   </div>
 
-  <p style="margin-top:30px;font-size:14px;color:#777;">
-    Powered by <a href="https://starpal.ai">StarPal AI</a>
-  </p>
-
-  <!-- ---------- Feedback Modal ---------- -->
-  <div class="modal-overlay" id="feedbackModal">
+  <!-- Feedback Modal (same page) -->
+  <div class="modal-overlay" id="feedbackModal" role="dialog" aria-modal="true" aria-labelledby="fbTitle">
     <div class="modal">
-      <h2>Feedback</h2>
+      <h2 id="fbTitle">Feedback</h2>
+      <p>[Your question text will go here later]</p>
 
-      <p>[Feedback question will be added here]</p>
+      <form id="feedbackForm">
+        <div class="options">
+          <label class="opt">
+            <input type="radio" name="feedback" value="option1" />
+            <span>Option 1</span>
+          </label>
 
-      <form>
-        <label>
-          <input type="radio" name="feedback" value="option1" />
-          Option 1
-        </label>
+          <label class="opt">
+            <input type="radio" name="feedback" value="option2" />
+            <span>Option 2</span>
+          </label>
 
-        <label>
-          <input type="radio" name="feedback" value="option2" />
-          Option 2
-        </label>
+          <label class="opt">
+            <input type="radio" name="feedback" value="option3" />
+            <span>Option 3</span>
+          </label>
+        </div>
 
-        <label>
-          <input type="radio" name="feedback" value="option3" />
-          Option 3
-        </label>
+        <div class="btn-row">
+          <button type="button" class="ghost" id="closeBtn">Close</button>
+          <button type="submit" class="primary">Submit</button>
+        </div>
       </form>
-
-      <button onclick="submitFeedback()">Submit</button>
-      <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
   </div>
 
   <script>
-    // Show modal after 1 minute (60000 ms)
-    setTimeout(() => {
-      document.getElementById("feedbackModal").style.display = "flex";
-    }, 60000);
+    // Show feedback modal after 2 minutes (120000 ms) on THIS single page.
+    const FEEDBACK_AFTER_MS = 120000;
+    const modal = document.getElementById("feedbackModal");
+    const form = document.getElementById("feedbackForm");
+    const closeBtn = document.getElementById("closeBtn");
+
+    let feedbackShown = false;
+
+    const timerId = setTimeout(() => {
+      feedbackShown = true;
+      modal.style.display = "flex";
+    }, FEEDBACK_AFTER_MS);
 
     function closeModal() {
-      document.getElementById("feedbackModal").style.display = "none";
+      modal.style.display = "none";
     }
 
-    function submitFeedback() {
-      // Placeholder for future logic
+    closeBtn.addEventListener("click", closeModal);
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      // Placeholder: read selected option (you can send it to your backend/Qualtrics later)
+      const chosen = new FormData(form).get("feedback") || null;
+      // console.log("Feedback chosen:", chosen);
+
       closeModal();
-    }
+    });
+
+    // Optional: block accidental navigation from THIS page (not the iframe).
+    // If you don't want any warnings, delete this block.
+    window.addEventListener("beforeunload", (e) => {
+      // Only warn after the session has started running a bit
+      // (prevents annoying prompts on instant refresh).
+      if (!feedbackShown) return;
+      e.preventDefault();
+      e.returnValue = "";
+    });
   </script>
 </body>
 </html>
