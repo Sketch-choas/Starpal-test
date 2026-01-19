@@ -95,26 +95,16 @@
   <h1>🎤 My StarPal Assistant</h1>
   <p>Speak with the assistant directly on this page.</p>
 
-  <!-- ---------- StarPal iframe ---------- -->
+  <!-- ---------- StarPal embedded (NO redirect) ---------- -->
   <div id="starpal-container">
     <iframe
-      src="https://create.starpal.ai/pal?id=58638727"
+      src="https://starpal.ai/preview?id=58638727"
       width="400"
       height="500"
       allow="microphone"
       id="starPalAvatar"
     ></iframe>
   </div>
-
-  <!-- Optional preview link (remove if not needed) -->
-  <!--
-  <p style="margin-top:20px;">
-    Preview: 
-    <a href="https://starpal.ai/preview?id=58638727" target="_blank">
-      https://starpal.ai/preview?id=58638727
-    </a>
-  </p>
-  -->
 
   <p style="margin-top:30px;font-size:14px;color:#777;">
     Powered by <a href="https://starpal.ai" target="_blank">StarPal AI</a>
@@ -160,7 +150,7 @@
     }
 
     function submitFeedback() {
-      // Placeholder for future logic (e.g., send to server / Qualtrics)
+      // Placeholder for data submission logic
       closeModal();
     }
   </script>
